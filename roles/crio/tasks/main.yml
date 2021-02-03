@@ -1,0 +1,43 @@
+---
+# tasks file for roles/crio
+#
+
+- name: Load modules overlay and br_netfilter
+  modprobe:
+    name: "{{item}}"
+    state: present
+  loop: ["overlay","br_netfilter"]
+
+- name: Copy sysctl file 
+  copy:
+    src: 99-kubernetes-crio.conf
+    dest: /etc/sysctl.d/
+
+- name: Copying script to install CRI-O
+  copy:
+    src=install-crio.sh
+    dest=/tmp/install-crio.sh
+    mode=0777
+
+- name: Installing Kubic repository
+  command: bash /tmp/install-crio.sh
+
+- name: Update APT repository
+  apt:
+    update_cache: yes
+
+- name: Installing CRI-O
+  apt:
+    name: "{{item}}"
+    state: present
+  loop: ["cri-o","cri-o-runc"]
+
+- name: Enabling CRI-O
+  systemd:
+    name: crio
+    state: started
+
+- name: Copying Kubelet configuration
+  copy:
+    src: kubelet
+    dest: /etc/default/kubelet

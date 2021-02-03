@@ -1,0 +1,25 @@
+---
+# tasks file for roles/extrapkgs
+#
+
+- name: Installing Debian backport repository
+  apt_repository:
+    repo: deb http://ftp.de.debian.org/debian buster-backports main 
+    state: present
+
+- name: Install extra packages
+  apt:
+    name: "{{item}}"
+    state: present
+  loop: ["curl","libseccomp2=2.4.4-1~bpo10+1"]
+
+
+- name: Disable Swap
+  shell: "swapoff --all"
+
+- name: Disable Swap permanently
+  replace:
+    path: /etc/fstab
+    regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+    replace: '# \1'
+
