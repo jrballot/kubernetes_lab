@@ -36,6 +36,7 @@
   systemd:
     name: crio
     state: started
+    enable: yes
 
 - name: Copying Kubelet configuration
   copy:
