@@ -3,6 +3,7 @@ machines = {
   "control-plane" => {"ip"=>"220", "memory" => "2048", "cpus"=>"2"},
   "worker1" => {"ip"=>"221", "memory" => "2048", "cpus"=>"2"},
   "worker2" => {"ip"=>"222", "memory" => "2048", "cpus"=>"2"},
+  "database" => {"ip"=>"223", "memory"=> "2048", "cpus"=> "2"},
 }
 
 Vagrant.configure("2") do |config|
