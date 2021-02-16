@@ -1,0 +1,13 @@
+---
+# tasks file for roles/posgresql
+#
+- name: "Install PostgreSQL"
+  apt:
+    name: postgresql
+    state: present
+
+- name: "Enable PostgreSQL service"
+  systemd:
+    name: postgresql
+    state: started
+    enabled: true
