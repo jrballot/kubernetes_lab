@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: control-plane, worker*
   become: yes
   gather_facts: yes
   roles:
@@ -7,4 +7,8 @@
     - crio
     - kubernetes
 
-
+- hosts: database
+  become: yes
+  gather_facts: no
+  roles:
+    - postgresql
